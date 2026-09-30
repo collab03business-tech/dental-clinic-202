@@ -21,6 +21,16 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
+// Direct zip download endpoint
+app.get('/download', (_req, res) => {
+  const zipPath = path.join(root, 'lumora-dental.zip');
+  if (fs.existsSync(zipPath)) {
+    res.download(zipPath, 'lumora-dental.zip');
+  } else {
+    res.status(404).send('Zip file not found');
+  }
+});
+
 // Protect private prefixes from direct access
 const PRIVATE_PREFIXES = [
   '/.git',
